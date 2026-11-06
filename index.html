@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora y conversor ET403</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+  <h1>Calculadora y conversor · Grupo 4</h1>
+  <p class="intro">Suma, resta, multiplicación y división, más conversión de metros/centímetros y kilogramos/gramos.</p>
+
+  <!-- ===== Calculadora original (conservada) ===== -->
+  <section aria-labelledby="titulo-calculadora">
+    <h2 id="titulo-calculadora">Calculadora</h2>
+
+    <label for="a">Primer dato</label>
+    <input id="a" type="text" value="12" autocomplete="off" inputmode="decimal">
+
+    <label for="b">Segundo dato</label>
+    <input id="b" type="text" value="3" autocomplete="off" inputmode="decimal">
+    <small>Para decimales use punto, por ejemplo 2.5.</small>
+
+    <label for="operacion">Operación</label>
+    <div class="fila">
+      <select id="operacion">
+        <option value="sumar">Sumar</option>
+        <option value="restar">Restar</option>
+        <option value="multiplicar">Multiplicar</option>
+        <option value="dividir">Dividir</option>
+      </select>
+      <button id="calcular" type="button">Calcular</button>
+    </div>
+
+    <p id="resultado" class="resultado" role="status" aria-live="polite">Pulse Calcular para probar.</p>
+  </section>
+
+  <!-- ===== Conversor de unidades (nueva sección Semana 9) ===== -->
+  <section aria-labelledby="titulo-conversor">
+    <h2 id="titulo-conversor">Conversor de unidades</h2>
+
+    <label for="valorConv">Valor a convertir</label>
+    <input id="valorConv" type="text" value="1" autocomplete="off" inputmode="decimal">
+    <small>Solo valores de 0 en adelante. Decimales con punto.</small>
+
+    <label for="tipoConv">Conversión</label>
+    <div class="fila">
+      <select id="tipoConv"></select>
+      <button id="convertir" type="button">Convertir</button>
+    </div>
+
+    <p id="resultadoConv" class="resultado" role="status" aria-live="polite">Pulse Convertir para probar.</p>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

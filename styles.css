@@ -1,0 +1,106 @@
+/* ===== Estilos base (de la calculadora original del Grupo 4) ===== */
+:root {
+  --fondo: #f6f7f9;
+  --tarjeta: #ffffff;
+  --texto: #1c2430;
+  --suave: #5b6675;
+  --borde: #c9d0da;
+  --acento: #1f5fbf;
+  --aviso-fondo: #fdecec;
+  --aviso-texto: #8a1c1c;
+  --ok-fondo: #e8f3ea;
+  --ok-texto: #1d5a2c;
+  --neutro-fondo: #eef2f6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #12161c;
+    --tarjeta: #1b212a;
+    --texto: #e8ecf1;
+    --suave: #9aa5b4;
+    --borde: #3a4452;
+    --acento: #6aa3f0;
+    --aviso-fondo: #3a1d1d;
+    --aviso-texto: #ffb4b4;
+    --ok-fondo: #1b3324;
+    --ok-texto: #a8e0b8;
+    --neutro-fondo: #232b36;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 2rem 1rem;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.5;
+}
+main {
+  max-width: 30rem;
+  margin: 0 auto;
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
+h2 { font-size: 1.1rem; margin: 0; }
+p.intro { margin: 0 0 1.25rem; color: var(--suave); }
+section + section {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--borde);
+}
+label { display: block; font-weight: 600; margin: .9rem 0 .3rem; }
+input, select, button {
+  font: inherit;
+  color: inherit;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  background: var(--tarjeta);
+  padding: .55rem .7rem;
+}
+input { width: 100%; }
+.fila { display: flex; gap: .6rem; margin-top: 1.1rem; }
+select { flex: 1; }
+button {
+  background: var(--acento);
+  border-color: var(--acento);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+@media (prefers-color-scheme: dark) { button { color: #0b1626; } }
+input:focus-visible, select:focus-visible, button:focus-visible {
+  outline: 3px solid var(--acento);
+  outline-offset: 2px;
+}
+.resultado {
+  margin: 1.25rem 0 0;
+  padding: .8rem 1rem;
+  border-radius: 6px;
+  background: var(--neutro-fondo);
+  min-height: 3rem;
+}
+.resultado.error { background: var(--aviso-fondo); color: var(--aviso-texto); }
+.resultado.ok { background: var(--ok-fondo); color: var(--ok-texto); font-weight: 600; }
+small { display: block; margin-top: .4rem; color: var(--suave); }
+
+/* ===== PERSONALIZACIÓN (Semana 9) =====
+   Paleta RGB elegida: azul rgb(30, 64, 175)
+   Contraste del texto blanco sobre ese azul: aprox. 8,7 : 1 (legible, supera 4,5 : 1) */
+:root {
+  --azul-rgb: rgb(30, 64, 175);
+}
+@media (prefers-color-scheme: light) {
+  :root { --acento: rgb(30, 64, 175); }
+}
+h1 {
+  color: var(--azul-rgb);
+}
+@media (prefers-color-scheme: dark) {
+  h1 { color: #9db8f5; }
+}
+/* Etiqueta HTML modificada: <h1> cambia de 1.5rem a 2rem (texto cambiado en index.html) */
+h1 { font-size: 2rem; }

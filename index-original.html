@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora ET403</title>
+<style>
+  :root {
+    --fondo: #f6f7f9;
+    --tarjeta: #ffffff;
+    --texto: #1c2430;
+    --suave: #5b6675;
+    --borde: #c9d0da;
+    --acento: #1f5fbf;
+    --aviso-fondo: #fdecec;
+    --aviso-texto: #8a1c1c;
+    --ok-fondo: #e8f3ea;
+    --ok-texto: #1d5a2c;
+    --neutro-fondo: #eef2f6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #12161c;
+      --tarjeta: #1b212a;
+      --texto: #e8ecf1;
+      --suave: #9aa5b4;
+      --borde: #3a4452;
+      --acento: #6aa3f0;
+      --aviso-fondo: #3a1d1d;
+      --aviso-texto: #ffb4b4;
+      --ok-fondo: #1b3324;
+      --ok-texto: #a8e0b8;
+      --neutro-fondo: #232b36;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  main {
+    max-width: 30rem;
+    margin: 0 auto;
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
+  p.intro { margin: 0 0 1.25rem; color: var(--suave); }
+  label { display: block; font-weight: 600; margin: .9rem 0 .3rem; }
+  input, select, button {
+    font: inherit;
+    color: inherit;
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    background: var(--tarjeta);
+    padding: .55rem .7rem;
+  }
+  input { width: 100%; }
+  .fila { display: flex; gap: .6rem; margin-top: 1.1rem; }
+  select { flex: 1; }
+  button {
+    background: var(--acento);
+    border-color: var(--acento);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  @media (prefers-color-scheme: dark) { button { color: #0b1626; } }
+  input:focus-visible, select:focus-visible, button:focus-visible {
+    outline: 3px solid var(--acento);
+    outline-offset: 2px;
+  }
+  #resultado {
+    margin: 1.25rem 0 0;
+    padding: .8rem 1rem;
+    border-radius: 6px;
+    background: var(--neutro-fondo);
+    min-height: 3rem;
+  }
+  #resultado.error { background: var(--aviso-fondo); color: var(--aviso-texto); }
+  #resultado.ok { background: var(--ok-fondo); color: var(--ok-texto); font-weight: 600; }
+  small { display: block; margin-top: .4rem; color: var(--suave); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Calculadora · Grupo 4</h1>
+  <p class="intro">Suma, resta, multiplicación y división, con validación de vacío, texto y divisor cero.</p>
+
+  <section aria-labelledby="titulo-calculadora">
+    <h2 id="titulo-calculadora" style="font-size:1.1rem;margin:0">Calculadora</h2>
+
+    <label for="a">Primer dato</label>
+    <input id="a" type="text" value="12" autocomplete="off" inputmode="decimal">
+
+    <label for="b">Segundo dato</label>
+    <input id="b" type="text" value="3" autocomplete="off" inputmode="decimal">
+    <small>Para decimales use punto, por ejemplo 2.5.</small>
+
+    <label for="operacion">Operación</label>
+    <div class="fila">
+      <select id="operacion">
+        <option value="sumar">Sumar</option>
+        <option value="restar">Restar</option>
+        <option value="multiplicar">Multiplicar</option>
+        <option value="dividir">Dividir</option>
+      </select>
+      <button id="calcular" type="button">Calcular</button>
+    </div>
+
+    <p id="resultado" role="status" aria-live="polite">Pulse Calcular para probar.</p>
+  </section>
+</main>
+
+<script>
+"use strict";
+
+document.getElementById("calcular").addEventListener("click", function () {
+  // 1. ENTRADA: se leen los textos y se quitan espacios sobrantes
+  const textoA = document.getElementById("a").value.trim();
+  const textoB = document.getElementById("b").value.trim();
+  const operacion = document.getElementById("operacion").value;
+  const salida = document.getElementById("resultado");
+
+  // Funciones auxiliares para mostrar el mensaje
+  function mostrarError(mensaje) {
+    salida.className = "error";
+    salida.textContent = mensaje;
+  }
+  function mostrarResultado(mensaje) {
+    salida.className = "ok";
+    salida.textContent = mensaje;
+  }
+
+  // 2. VALIDACIÓN 1: entrada vacía (vacío no equivale a cero)
+  // Se revisa ANTES de convertir, porque Number("") devuelve 0.
+  if (textoA === "" || textoB === "") {
+    mostrarError("Complete las dos entradas.");
+    return;
+  }
+
+  // Conversión de texto a número
+  const a = Number(textoA);
+  const b = Number(textoB);
+
+  // 3. VALIDACIÓN 2: número no válido (texto como "abc" da NaN)
+  if (!Number.isFinite(a) || !Number.isFinite(b)) {
+    mostrarError("Escriba números válidos en ambas entradas.");
+    return;
+  }
+
+  // 4. VALIDACIÓN 3: divisor cero, solo cuando se divide
+  if (operacion === "dividir" && b === 0) {
+    mostrarError("No se puede dividir entre cero.");
+    return;
+  }
+
+  // 5. OPERACIÓN y SALIDA
+  if (operacion === "sumar") {
+    mostrarResultado("Suma: " + (a + b));
+  } else if (operacion === "restar") {
+    mostrarResultado("Resta: " + (a - b));
+  } else if (operacion === "multiplicar") {
+    mostrarResultado("Multiplicación: " + (a * b));
+  } else {
+    mostrarResultado("División: " + (a / b));
+  }
+});
+</script>
+</body>
+</html>
